@@ -55,10 +55,12 @@
             margin-left: auto;
             margin-right: auto;
         }
-        #gross{
+
+        #gross {
             font-size: 2em;
         }
-        #tat{
+
+        #tat {
             font-size: 2em;
             text-align: center;
         }
@@ -66,50 +68,132 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container" id="pizza-app">
         <h1>Pizza</h1>
         <div id="size">
             <div id="gross">Größe: </div>
             <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
+                <input  @click="psmall" type="radio" id="customRadioInline1" name="customRadioInline1"
+                    class="custom-control-input">
                 <label class="custom-control-label" for="customRadioInline1">Small</label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
+                <input  @click="pmedium" type="radio" id="customRadioInline2" name="customRadioInline1"
+                    class="custom-control-input">
                 <label class="custom-control-label" for="customRadioInline2">Medium</label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" id="customRadioInline3" name="customRadioInline1" class="custom-control-input">
+                <input  @click="plarge" type="radio" id="customRadioInline3" name="customRadioInline1"
+                    class="custom-control-input">
                 <label class="custom-control-label" for="customRadioInline3">Large</label>
             </div>
         </div>
         <div id="zutaten">
             <div id="tat">Zutaten:</div>
             <div class="custom-control custom-checkbox form-check-inline">
-                <input type="checkbox" class="custom-control-input" id="customCheck1">
-                <label class="custom-control-label" for="customCheck1">Käse</label><br>
+                <input v-model="kase" type="checkbox" @click="cheese" class="custom-control-input" id="customCheck1">
+                <label class="custom-control-label" for="customCheck1">Käse {{ kase }}</label><br>
             </div>
 
             <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="customCheck2">
-                <label class="custom-control-label" for="customCheck2">Schinken</label>
+                <input v-model="schinken" @click="ham" type="checkbox" class="custom-control-input" id="customCheck2">
+                <label class="custom-control-label" for="customCheck2">Schinken {{ schinken }}</label>
             </div>
             <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="customCheck3">
-                <label class="custom-control-label" for="customCheck3">Zwiebeln</label>
+                <input v-model="zwiebel" @click="onion" type="checkbox" class="custom-control-input" id="customCheck3">
+                <label class="custom-control-label" for="customCheck3">Zwiebeln {{ zwiebel }}</label>
             </div>
             <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="customCheck4">
-                <label class="custom-control-label" for="customCheck4">Oliven</label>
+                <input v-model="olive" @click="oliven" type="checkbox" class="custom-control-input" id="customCheck4">
+                <label class="custom-control-label" for="customCheck4">Oliven {{ olive }}</label>
             </div>
             <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="customCheck5">
-                <label class="custom-control-label" for="customCheck5">Ananas</label>
+                <input v-model="ana" @click="pineapple" type="checkbox" class="custom-control-input" id="customCheck5">
+                <label class="custom-control-label" for="customCheck5">Ananas {{ ana }}</label>
             </div>
         </div>
-        <input class="mx-auto btn btn-primary" type="button" id="rechnung" onclick="" value="Preis berechnen">
-        <p id="final">Die Pizza kostet: 0€</p>
+        <input class="mx-auto btn btn-primary" type="button" id="rechnung" @click="anzeige" value="Preis berechnen">
+        <p id="final">Die Pizza kostet: {{ ausgabe }}</p>
     </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+        var grundpreis = 6;
+        var kasepreis = 0;
+        var schinkenpreis = 0;
+        var zwiebelpreis = 0;
+        var olivenpreis = 0;
+        var ananaspreis = 0;
+        var endpreis = 0;
+        const PizzaApp = {
+            data() {
+                return {
+                    kase: false,
+                    ausgabe: '0€',
+                    schinken: false,
+                    zwiebel: false,
+                    olive: false,
+                    ana: false,
+                }
+            },
+            methods: {
+                psmall() {
+                    grundpreis = 6;
+                },
+                pmedium() {
+                    grundpreis = 9;
+                },
+                plarge() {
+                    grundpreis = 12;
+
+                },
+                cheese() {
+                    if (this.kase == false) {
+                        kasepreis = 5;
+
+                    }
+                    else {
+                        kasepreis = 0;
+                    }
+                },
+                ham() {
+                    if (this.schinken == false) {
+                        schinkenpreis = 7;
+                    }
+                    else {
+                        schinkenpreis = 0;
+                    }
+                },
+                onion() {
+                    if (this.zwiebel == false) {
+                        zwiebelpreis = 4;
+                    }
+                    else {
+                        zwiebelpreis = 0;
+                    }
+                },
+                oliven() {
+                    if (this.olive == false) {
+                        olivenpreis = 5;
+                    }
+                    else {
+                        olivenpreis = 0;
+                    }
+                },
+                pineapple() {
+                    if (this.ana == false) {
+                        ananaspreis = 8;
+                    }
+                    else {
+                        ananaspreis = 0;
+                    }
+                },
+                anzeige() {
+                    this.ausgabe = grundpreis + kasepreis + schinkenpreis + zwiebelpreis + olivenpreis + ananaspreis + '€';
+                }
+            }
+        };
+        Vue.createApp(PizzaApp).mount('#pizza-app');
+    </script>
 </body>
 
 </html>
