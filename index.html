@@ -114,6 +114,11 @@
                     class="custom-control-input">
                 <label class="custom-control-label" for="customRadioInline3">Large</label>
             </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input @click="pparty" type="radio" id="customRadioInline4" name="customRadioInline1"
+                    class="custom-control-input">
+                <label class="custom-control-label" for="customRadioInline4">Party</label>
+            </div>
         </div>
         <div id="zutaten">
             <div id="tat">Zutaten:</div>
@@ -138,9 +143,13 @@
                 <input v-model="ana" @click="pineapple" type="checkbox" class="custom-control-input" id="customCheck5">
                 <label class="custom-control-label" for="customCheck5">Ananas</label>
             </div>
+            <div class="custom-control custom-checkbox">
+                <input v-model="gege" @click="geez" type="checkbox" class="custom-control-input" id="customCheck6">
+                <label class="custom-control-label" for="customCheck6">Kwaese</label>
+            </div>
         </div>
-        <input class="mx-auto btn btn-info" type="button" id="rechnung" @click="anzeige" value="Preis berechnen">
-        <p id="final">Die Pizza kostet: {{ ausgabe }}</p>
+        <!-- <input class="mx-auto btn btn-info" type="button" id="rechnung" @click="anzeige" value="Preis berechnen"> -->
+        <p id="final">Ihre Pizza kostet: {{ ausgabe }}</p>
     </div>
     <script src="https://unpkg.com/vue@next"></script>
     <script>
@@ -150,7 +159,17 @@
         var zwiebelpreis = 0;
         var olivenpreis = 0;
         var ananaspreis = 0;
+        var kwaesepreis = 0;
         var endpreis = 0;
+        function anzeige() {
+                    if (grundpreis == 0) {
+                        alert("Es scheint als hätten sie keine Optionen für Ihre Pizza gewählt. Bitte wählen sie etwas aus.");
+                    }
+                    else {
+                        this.ausgabe = grundpreis + kasepreis + schinkenpreis + zwiebelpreis + olivenpreis + ananaspreis + kwaesepreis;
+                        document.getElementById("final").innerHTML = "Ihre Pizza kostet: " + this.ausgabe + "€";
+                    }
+                }
         const PizzaApp = {
             data() {
                 return {
@@ -160,68 +179,97 @@
                     zwiebel: false,
                     olive: false,
                     ana: false,
+                    gege: false,
                 }
             },
             methods: {
                 psmall() {
                     grundpreis = 6;
+                    anzeige();
                 },
                 pmedium() {
                     grundpreis = 9;
+                    anzeige();
                 },
                 plarge() {
                     grundpreis = 12;
+                    anzeige();
+
+                },
+                pparty() {
+                    grundpreis = 16;
+                    anzeige();
 
                 },
                 cheese() {
                     if (this.kase == false) {
-                        kasepreis = 5;
+                        kasepreis = 2;
+                        anzeige();
 
                     }
                     else {
                         kasepreis = 0;
+                        anzeige();
                     }
                 },
                 ham() {
                     if (this.schinken == false) {
-                        schinkenpreis = 7;
+                        schinkenpreis = 3;
+                        anzeige();
                     }
                     else {
                         schinkenpreis = 0;
+                        anzeige();
                     }
                 },
                 onion() {
                     if (this.zwiebel == false) {
-                        zwiebelpreis = 4;
+                        zwiebelpreis = 1;
+                        anzeige();
                     }
                     else {
                         zwiebelpreis = 0;
+                        anzeige();
                     }
                 },
                 oliven() {
                     if (this.olive == false) {
-                        olivenpreis = 5;
+                        olivenpreis = 3;
+                        anzeige();
                     }
                     else {
                         olivenpreis = 0;
+                        anzeige();
                     }
                 },
                 pineapple() {
                     if (this.ana == false) {
-                        ananaspreis = 8;
+                        ananaspreis = 4;
+                        anzeige();
                     }
                     else {
                         ananaspreis = 0;
+                        anzeige();
                     }
                 },
-                anzeige() {
-                    if (grundpreis == 0) {
-                        alert("Es scheint als hätten sie keine Optionen für Ihre Pizza gewählt. Bitte wählen sie etwas aus.");
+                geez() {
+                    if (this.gege == false) {
+                        kwaesepreis = 3;
+                        anzeige();
                     }
                     else {
-                        this.ausgabe = grundpreis + kasepreis + schinkenpreis + zwiebelpreis + olivenpreis + ananaspreis + '€';
+                        kwaesepreis = 0;
+                        anzeige();
                     }
-                }
+                },
+                // anzeige() {
+                //     if (grundpreis == 0) {
+                //         alert("Es scheint als hätten sie keine Optionen für Ihre Pizza gewählt. Bitte wählen sie etwas aus.");
+                //     }
+                //     else {
+                //         this.ausgabe = grundpreis + kasepreis + schinkenpreis + zwiebelpreis + olivenpreis + ananaspreis + kwaesepreis + '€';
+                //     }
+                // }
             }
         };
         Vue.createApp(PizzaApp).mount('#pizza-app');
